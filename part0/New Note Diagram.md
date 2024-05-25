@@ -1,6 +1,4 @@
-Inicio --> Usuario escribe nota
-Usuario escribe nota --> Usuario hace clic en botón Save
-Usuario hace clic en botón Save --> Validar datos
-Validar datos --> Guardar nota en base de datos
-Guardar nota en base de datos --> Mostrar confirmación en la interfaz
-Mostrar confirmación en la interfaz --> Fin
+sequenceDiagram
+    participant browser
+    participant server
+    browser->>server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
