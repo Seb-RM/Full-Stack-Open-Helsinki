@@ -15,16 +15,43 @@ const App = () => {
     "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.",
     "The only way to go fast, is to go well.",
   ];
-  
-  const numberLimit=anecdotes.length;
-  console.log(selected)
+
+  const totalAnecdotes = anecdotes.length;
+
+  const voteList = Array(totalAnecdotes).fill(0);
+
+  const [votes, setVotes] = useState(voteList);
+
+  const handleVote = () => {
+    let newVotes = [...votes];
+    newVotes[selected] += 1;
+    setVotes(newVotes);
+  };
+
+  const votesCount = [...votes];
+  votesCount.sort((a, b) => b - a);
+  const mostVoted = votesCount[0];
+  const mostVotedIndex = votes.findIndex((element) => element === mostVoted);
+  console.log(mostVoted);
+  console.log(mostVotedIndex);
 
   return (
     <>
-      <div>{anecdotes[selected]}</div>
-      <button onClick={() => setSelected(Math.floor(Math.random() * numberLimit))}>
+      <div>
+        <h1>Anecdote of the day</h1>
+        <p>{anecdotes[selected]}</p>
+        <p>{`has ${votes[selected]} votes`}</p>
+      </div>
+      <button onClick={handleVote}>vote</button>
+      <button
+        onClick={() => setSelected(Math.floor(Math.random() * totalAnecdotes))}>
         next anecdote
       </button>
+      <div>
+        <h1>Anecdote with most votes</h1>
+        <p>{anecdotes[mostVotedIndex]}</p>
+        <p>{`has ${votes[mostVotedIndex]} votes`}</p>
+      </div>
     </>
   );
 };
