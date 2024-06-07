@@ -1,10 +1,11 @@
 
 const StatisticsLine = ({text, state}) =>{
     return (
-        <>
-            <p>{text} {state}</p>
-        </>
-    )
+        <tr>
+            <td>{text} </td>
+            <td>{state}</td>
+        </tr>
+    );
 };
 
 export default StatisticsLine;

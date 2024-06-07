@@ -25,12 +25,18 @@ function App() {
       </div>
       <TitleComponent title={"Statistics"} />
       <div>
-        <StatisticLine text={"good"} state={good} />
-        <StatisticLine text={"neutral"} state={neutral} />
-        <StatisticLine text={"bad"} state={bad} />
-        <StatisticLine text={"all"} state={all} />
-        <StatisticLine text={"average"} state={average} />
-        <StatisticLine text={"positive"} state={positive} />
+        {!(good||neutral||bad)? <p>No feedback given.</p> : 
+        <table>
+          <tbody>
+            <StatisticLine text={"good"} state={good} />
+            <StatisticLine text={"neutral"} state={neutral} />
+            <StatisticLine text={"bad"} state={bad} />
+            <StatisticLine text={"all"} state={all} />
+            <StatisticLine text={"average"} state={average} />
+            <StatisticLine text={"positive"} state={`${positive} %`}/>
+          </tbody>
+        </table>
+        }
       </div>
     </div>
   );
