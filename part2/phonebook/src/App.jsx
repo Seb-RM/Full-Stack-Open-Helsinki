@@ -1,4 +1,7 @@
 import { useState } from "react";
+import SearchFilter from "./components/SearchFilter";
+import NewPersonForm from "./components/NewPersonForm";
+import NumbersList from "./components/NumbersList";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -11,7 +14,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
 
-  console.log(persons);
+  console.log(persons.map(person => person.name.toLowerCase()));
 
   const handleSearchChange = (event) => {
     console.log(event.target.value);
@@ -33,7 +36,7 @@ const App = () => {
   const addNote = (event) => {
     event.preventDefault();
 
-    if(persons.find(person=>person.name===newName)) {
+    if(persons.find(person=>person.name.toLowerCase()===newName.toLowerCase())) {
       alert(`${newName} is already added to phonebook`)
       return
     }
@@ -51,42 +54,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        <h2>search</h2>
-        <div>
-          filer shown with <input value={newSearch} onChange={handleSearchChange} />
-        </div>
-      </div>
-      <div>
-        <h2>add a new</h2>
-        <form onSubmit={addNote}>
-          <div>
-            name: <input value={newName} onChange={handleNameChange} />
-          </div>
-          <div>
-            number: <input value={newNumber} onChange={handlePhoneChange} />
-          </div>
-          <div>
-            <button type="submit">add</button>
-          </div>
-        </form>
-      </div>
-      <h2>Numbers</h2>
-      <div>
-        {!newSearch ?
-        <>
-        {persons.map((person) => (
-          <p key={person.name}>{person.name} {person.number}</p>
-          ))}
-        </>
-        :
-        <>
-        {filteredList.map((person) => (
-          <p key={person.name}>{person.name} {person.number}</p>
-          ))}
-        </>
-        }
-      </div>
+      <SearchFilter newSearch={newSearch} handleSearchChange={handleSearchChange} />
+      <NewPersonForm addNote={addNote} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handlePhoneChange={handlePhoneChange}/>
+      <NumbersList newSearch={newSearch} persons={persons} filteredList={filteredList}/>
     </div>
   );
 };
