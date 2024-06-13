@@ -4,7 +4,7 @@ const SearchFilter = ({newSearch, handleSearchChange}) => {
     <div>
       <h2>search</h2>
       <div>
-        filer shown with{" "}
+        filter shown with{" "}
         <input value={newSearch} onChange={handleSearchChange} />
       </div>
     </div>

@@ -1,27 +1,30 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import axios from "axios";
+
+import NumbersList from "./components/NumbersList";
 import SearchFilter from "./components/SearchFilter";
 import NewPersonForm from "./components/NewPersonForm";
-import NumbersList from "./components/NumbersList";
+
+import personService from './services/persons';
+
 
 const App = () => {
+
   const [persons , setPersons] = useState([])
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
 
   useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
-  }, [])
+  }, []);
+
   const handleSearchChange = (event) => {
     console.log(event.target.value);
     setNewSearch(event.target.value);
-  }
+  };
 
   const filteredList = persons.filter((person)=> person.name.toLowerCase().includes(newSearch))
 
@@ -48,9 +51,11 @@ const App = () => {
       number: newNumber
     };
 
-    setPersons(persons.concat(personObject));
-    setNewName("");
+    personService.create(personObject).then((returnedPerson) => {
+      setPersons(persons.concat(returnedPerson));
+      setNewName("");
     setNewNumber("");
+    });
   };
 
   return (
