@@ -40,20 +40,34 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
+    
+    const personObject = {
+      name: newName,
+      number: newNumber,
+    };
 
     if (
       persons.find(
         (person) => person.name.toLowerCase() === newName.toLowerCase()
       )
     ) {
-      alert(`${newName} is already added to phonebook`);
-      return;
+      if(confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+        const personToUpdate = persons.find(
+          (person) => person.name.toLowerCase() === newName.toLowerCase()
+        );
+        console.log(personToUpdate.id);
+        personService.update(personToUpdate.id, personObject).then((returnedPerson) => {
+          setPersons(persons.map(person => person.id !== personToUpdate.id ? person : returnedPerson));
+          setNewName("");
+          setNewNumber("");
+        });
+        return;
+        }
+        setNewName("");
+        setNewNumber("");
+        return;
     }
 
-    const personObject = {
-      name: newName,
-      number: newNumber,
-    };
 
     personService.create(personObject).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
@@ -67,7 +81,7 @@ const App = () => {
     console.log(personToDelete)
     const message = `Delete ${personToDelete.name}?`;
     if(confirm(message)){
-      const responseText = personService.erase(id);
+      personService.erase(id);
       setPersons(persons.filter(person => person.id !== id));
     }
   };
