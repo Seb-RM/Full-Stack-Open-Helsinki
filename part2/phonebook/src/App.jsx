@@ -26,7 +26,7 @@ const App = () => {
     setNewSearch(event.target.value);
   };
 
-  const filteredList = persons.filter((person)=> person.name.toLowerCase().includes(newSearch))
+  const filteredList = persons.filter((person)=> person.name.toLowerCase().includes(newSearch.toLowerCase()))
 
   const handleNameChange = (event) => {
     console.log(event.target.value);
@@ -38,32 +38,60 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  const addNote = (event) => {
+  const addPerson = (event) => {
     event.preventDefault();
 
-    if(persons.find(person=>person.name.toLowerCase()===newName.toLowerCase())) {
-      alert(`${newName} is already added to phonebook`)
-      return
+    if (
+      persons.find(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      )
+    ) {
+      alert(`${newName} is already added to phonebook`);
+      return;
     }
 
     const personObject = {
       name: newName,
-      number: newNumber
+      number: newNumber,
     };
 
     personService.create(personObject).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
       setNewName("");
-    setNewNumber("");
+      setNewNumber("");
     });
+  };
+
+  const deletePerson = (id) => {
+    const personToDelete = persons.find((person) => person.id === id)
+    console.log(personToDelete)
+    const message = `Delete ${personToDelete.name}?`;
+    if(confirm(message)){
+      const responseText = personService.erase(id);
+      setPersons(persons.filter(person => person.id !== id));
+    }
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <SearchFilter newSearch={newSearch} handleSearchChange={handleSearchChange} />
-      <NewPersonForm addNote={addNote} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handlePhoneChange={handlePhoneChange}/>
-      <NumbersList newSearch={newSearch} persons={persons} filteredList={filteredList}/>
+      <SearchFilter
+        newSearch={newSearch}
+        handleSearchChange={handleSearchChange}
+      />
+      <NewPersonForm
+        addPerson={addPerson}
+        newName={newName}
+        newNumber={newNumber}
+        handleNameChange={handleNameChange}
+        handlePhoneChange={handlePhoneChange}
+      />
+      <NumbersList
+        newSearch={newSearch}
+        persons={persons}
+        filteredList={filteredList}
+        deletePerson={deletePerson}
+      />
     </div>
   );
 };
