@@ -6,6 +6,7 @@ import NumbersList from "./components/NumbersList";
 import SearchFilter from "./components/SearchFilter";
 import Notification from "./components/Notification";
 import NewPersonForm from "./components/NewPersonForm";
+import ErrorMessage from "./components/ErrorMessage"
 
 import "./index.css";
 
@@ -17,6 +18,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
   const [notificationMessage, setNotificationMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -67,7 +69,16 @@ const App = () => {
           }, 5000);
           setNewName("");
           setNewNumber("");
-        });
+        }).catch((error)=>{
+          console.log(error.message);
+          setErrorMessage(`Information of ${personObject.name} has already been remove from the server`);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
+          setNewName("");
+          setNewNumber("");
+          setPersons(persons.filter((p) => p.id !== personToUpdate.id));
+        })
         return;
         }
         setNewName("");
@@ -84,6 +95,8 @@ const App = () => {
       }, 5000);
       setNewName("");
       setNewNumber("");
+    }).catch((error)=>{
+      console.log(error.message)
     });
   };
 
@@ -102,6 +115,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <div className="notificationContainer">
         <Notification  message={notificationMessage} />
+        <ErrorMessage message={errorMessage} />
       </div>
       <SearchFilter
         newSearch={newSearch}
