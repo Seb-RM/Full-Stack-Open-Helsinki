@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useEffect } from "react";
 
+import personService from './services/persons';
 import NumbersList from "./components/NumbersList";
 import SearchFilter from "./components/SearchFilter";
+import Notification from "./components/Notification";
 import NewPersonForm from "./components/NewPersonForm";
 
-import personService from './services/persons';
+import "./index.css";
 
 
 const App = () => {
@@ -14,6 +16,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -58,6 +61,10 @@ const App = () => {
         console.log(personToUpdate.id);
         personService.update(personToUpdate.id, personObject).then((returnedPerson) => {
           setPersons(persons.map(person => person.id !== personToUpdate.id ? person : returnedPerson));
+          setNotificationMessage(`Updated ${returnedPerson.name}`);
+          setTimeout(() => {
+            setNotificationMessage(null);
+          }, 5000);
           setNewName("");
           setNewNumber("");
         });
@@ -71,6 +78,10 @@ const App = () => {
 
     personService.create(personObject).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
+      setNotificationMessage(`Added ${returnedPerson.name}`);
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 5000);
       setNewName("");
       setNewNumber("");
     });
@@ -89,6 +100,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div className="notificationContainer">
+        <Notification  message={notificationMessage} />
+      </div>
       <SearchFilter
         newSearch={newSearch}
         handleSearchChange={handleSearchChange}
