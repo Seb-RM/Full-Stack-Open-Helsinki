@@ -3,18 +3,24 @@ import countryServices from "./services/countries";
 
 function App() {
   const [countries, setCountries] = useState([]);
+  const [newSearchString, setNewSearchString] = useState("");
 
   useEffect(() => {
-    countryServices.getAll().then((initialPersons) => {
-      setCountries(initialPersons);
+    countryServices.getAll().then((initialCountries) => {
+      setCountries(initialCountries);
     });
   }, []);
-
   console.log(countries);
+
+  const handleSearchChange = (event) => {
+    console.log(event.target.value);
+    setNewSearchString(event.target.value);
+  };
+
   return (
     <div>
       <h1>Countries</h1>
-      <input></input>
+      <input value={newSearchString} onChange={handleSearchChange} />
     </div>
   );
 }
