@@ -14,13 +14,13 @@ function App() {
   // console.log(countries);
 
   const handleSearchChange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setNewSearchString(event.target.value);
   };
   useEffect(()=> {
     setFilteredCountries(countries.filter((country)=> {
       const searchString = newSearchString.toLowerCase();
-      console.log(searchString);
+      // console.log(searchString);
       const commonName = country.name.common.toLowerCase();
       // console.log(commonName);
       const officialName = country.name.official.toLowerCase();
@@ -31,12 +31,22 @@ function App() {
       return regex.test(commonName) || regex.test(officialName);
     }))
   }, [newSearchString, setFilteredCountries, countries]);
-  console.log(filteredCountries.length)
+  console.log(filteredCountries.length);
+  console.log(filteredCountries[0])
 
   return (
     <div>
       <h1>Countries</h1>
       <input value={newSearchString} onChange={handleSearchChange} />
+      {filteredCountries.length>10? (
+        <p>Too many countries, specify another filter.</p>
+      ) : filteredCountries.length=== 1?(<p>Queda uno</p>) : (
+        <ul>
+          {filteredCountries.map((country) => (
+            <li key={country.name.official}>{country.name.official}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
