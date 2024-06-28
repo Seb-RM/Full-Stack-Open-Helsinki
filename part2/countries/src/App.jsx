@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import countryServices from "./services/countries";
+import CountryDetail from "./components/CountryDetail";
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -40,7 +41,7 @@ function App() {
       <input value={newSearchString} onChange={handleSearchChange} />
       {filteredCountries.length>10? (
         <p>Too many countries, specify another filter.</p>
-      ) : filteredCountries.length=== 1?(<p>Queda uno</p>) : (
+      ) : filteredCountries.length=== 1?(<CountryDetail country={filteredCountries[0]}/>) : (
         <ul>
           {filteredCountries.map((country) => (
             <li key={country.name.official}>{country.name.official}</li>
