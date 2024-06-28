@@ -32,8 +32,8 @@ function App() {
       return regex.test(commonName) || regex.test(officialName);
     }))
   }, [newSearchString, setFilteredCountries, countries]);
-  console.log(filteredCountries.length);
-  console.log(filteredCountries[0])
+  // console.log(filteredCountries.length);
+  // console.log(filteredCountries[0])
 
   return (
     <div>

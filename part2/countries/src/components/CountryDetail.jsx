@@ -1,7 +1,9 @@
 
-function CountryDetail() {
+function CountryDetail({country}) {
     return (
-        <div>CountryDetail</div>
+        <div>
+            <h1>{country.name.official}</h1>
+        </div>
     )
 }
 
