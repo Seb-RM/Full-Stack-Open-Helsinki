@@ -19,6 +19,7 @@ function App() {
   const handleSearchChange = (event) => {
     // console.log(event.target.value);
     setNewSearchString(event.target.value);
+    setSelectedCountry(null);
   };
 
   const handleCountrySelect = (country) => {
@@ -41,7 +42,9 @@ function App() {
       <h1>Countries</h1>
       <SearchBar value={newSearchString} onChange={handleSearchChange} />
       {newSearchString === "" ? (
-        <p></p>
+        <p>Start typing to search for a country...</p>
+      ) : selectedCountry ? (
+        <CountryDetail country={selectedCountry} />
       ) : filteredCountries.length > 10 ? (
         <p>Too many countries, specify another filter.</p>
       ) : filteredCountries.length === 1 ? (
@@ -52,7 +55,6 @@ function App() {
           onSelectCountry={handleCountrySelect}
         />
       )}
-      {selectedCountry && <CountryDetail country={selectedCountry} />}
     </div>
   );
 }
