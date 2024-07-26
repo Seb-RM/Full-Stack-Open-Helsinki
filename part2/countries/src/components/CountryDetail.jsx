@@ -60,8 +60,8 @@ function CountryDetail({ country }) {
                 <h3>Weather in {country.capital}:</h3>
                 <p>Temperature: {weather.main.temp}K</p>
                 <p>Weather: {weather.weather[0].description}</p>
-                <p>Wind Speed: {weather.wind.speed} m/s</p>
                 <img src={weatherIconUrl} alt="Weather icon" />
+                <p>Wind Speed: {weather.wind.speed} m/s</p>
                 </div>
             )}
             </div>
