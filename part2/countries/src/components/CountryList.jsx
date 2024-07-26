@@ -1,3 +1,4 @@
+
 const CountryList = ({ countries, onSelectCountry }) => (
     <ul>
         {countries.map((country) => (

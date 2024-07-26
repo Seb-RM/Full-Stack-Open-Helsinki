@@ -1,8 +1,9 @@
-import { useEffect, useState, useMemo } from "react";
-import countryServices from "./services/countries";
-import CountryDetail from "./components/CountryDetail";
+import { useEffect, useMemo, useState } from "react";
+
 import SearchBar from "./components/SearchBar";
+import countryServices from "./services/countries";
 import CountryList from "./components/CountryList";
+import CountryDetail from "./components/CountryDetail";
 
 function App() {
   const [countries, setCountries] = useState([]);

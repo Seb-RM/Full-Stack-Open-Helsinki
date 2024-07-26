@@ -1,5 +1,5 @@
-import.meta.env;
 import { useEffect, useState } from "react";
+
 import weatherService from "../services/weather";
 
 function CountryDetail({ country }) {
@@ -35,33 +35,33 @@ function CountryDetail({ country }) {
     return (
         <>
             <div>
-            <h1>{country.name.official}</h1>
-            <h5>{country.name.common}</h5>
-            <p>{country.capital}</p>
-            <p>{country.population}</p>
-            <p>{country.area}</p>
-            <ul>
-                {Object.keys(country.languages).map((key) => (
-                <li key={key}>{country.languages[key]}</li>
-                ))}
-            </ul>
-            <p>{country.area}</p>
-            <img src={`${country.flags.svg}`} alt={`${country.flags.alt}`} />
+                <h1>{country.name.official}</h1>
+                <h5>{country.name.common}</h5>
+                <p>{country.capital}</p>
+                <p>{country.population}</p>
+                <p>{country.area}</p>
+                <ul>
+                    {Object.keys(country.languages).map((key) => (
+                    <li key={key}>{country.languages[key]}</li>
+                    ))}
+                </ul>
+                <p>{country.area}</p>
+                <img src={`${country.flags.svg}`} alt={`${country.flags.alt}`} />
             </div>
             <div>
                 {loading ? (
-                <p>Loading weather...</p>
-                    ) : error ? (
-                <p>Error fetching weather data: {error.message}</p>
-                    ) : (
-                <div>
-                <h3>Weather in {country.capital}:</h3>
-                <p>Temperature: {weather.main.temp}K</p>
-                <p>Weather: {weather.weather[0].description}</p>
-                <img src={weatherIconUrl} alt="Weather icon" />
-                <p>Wind Speed: {weather.wind.speed} m/s</p>
-                </div>
-            )}
+                    <p>Loading weather...</p>
+                        ) : error ? (
+                    <p>Error fetching weather data: {error.message}</p>
+                        ) : (
+                    <div>
+                        <h3>Weather in {country.capital}:</h3>
+                        <p>Temperature: {weather.main.temp}K</p>
+                        <p>Weather: {weather.weather[0].description}</p>
+                        <img src={weatherIconUrl} alt="Weather icon" />
+                        <p>Wind Speed: {weather.wind.speed} m/s</p>
+                    </div>
+                )}
             </div>
         </>
     );
