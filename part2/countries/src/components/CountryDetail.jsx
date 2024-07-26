@@ -1,6 +1,7 @@
 import.meta.env;
 import axios from "axios";
 import { useEffect, useState } from "react";
+import fetchWeather from "../services/weather.js";
 
 function CountryDetail({ country }) {
     console.log(import.meta.env.VITE_WEATHER_API);
@@ -9,7 +10,7 @@ function CountryDetail({ country }) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchWeather = async () => {
+        fetchWeather = async () => {
             if (country && country.capital) {
                 try {
                 const apiKey = import.meta.env.VITE_WEATHER_API; 
