@@ -1,7 +1,6 @@
 import.meta.env;
-import axios from "axios";
 import { useEffect, useState } from "react";
-import fetchWeather from "../services/weather.js";
+import weatherService from "../services/weather";
 
 function CountryDetail({ country }) {
     console.log(import.meta.env.VITE_WEATHER_API);
@@ -10,21 +9,19 @@ function CountryDetail({ country }) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchWeather = async () => {
+        const fetchWeather = async () => {
             if (country && country.capital) {
                 try {
-                const apiKey = import.meta.env.VITE_WEATHER_API; 
-                const capital = country.capital[0];
-                const response = await axios.get(
-                    `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${apiKey}`
-                );
-                setWeather(response.data);
-                setLoading(false);
+                    const capital = country.capital[0];
+                    const weatherData =
+                        await weatherService.getWeatherByCapital(capital);
+                    setWeather(weatherData);
+                    setLoading(false);
                 } catch (error) {
-                setError(error);
-                setLoading(false);
+                    setError(error);
+                    setLoading(false);
+                }
             }
-        }
         };
 
         fetchWeather();

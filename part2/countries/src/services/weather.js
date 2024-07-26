@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiKey = import.meta.env.VITE_WEATHER_API;
 
-const weatherService = async () => {
+const getWeatherByCapital = async (capital) => {
     const request = axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${apiKey}`
     );
@@ -11,4 +11,4 @@ const weatherService = async () => {
     return response.data;
 };
 
-export default { weatherService };
+export default { getWeatherByCapital };
