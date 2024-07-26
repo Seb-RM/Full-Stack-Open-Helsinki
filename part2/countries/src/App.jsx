@@ -1,6 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
 import countryServices from "./services/countries";
 import CountryDetail from "./components/CountryDetail";
+import SearchBar from "./components/SearchBar";
+import CountryList from "./components/CountryList";
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -37,16 +39,20 @@ function App() {
   return (
     <div>
       <h1>Countries</h1>
-      <input value={newSearchString} onChange={handleSearchChange} />
-      {filteredCountries.length>10? (
+      <SearchBar value={newSearchString} onChange={handleSearchChange} />
+      {newSearchString === "" ? (
+        <p></p>
+      ) : filteredCountries.length > 10 ? (
         <p>Too many countries, specify another filter.</p>
-      ) : filteredCountries.length=== 1?(<CountryDetail country={filteredCountries[0]}/>) : (
-        <ul>
-          {filteredCountries.map((country) => (
-            <li key={country.name.official}>{country.name.official}</li>
-          ))}
-        </ul>
+      ) : filteredCountries.length === 1 ? (
+        <CountryDetail country={filteredCountries[0]} />
+      ) : (
+        <CountryList
+          countries={filteredCountries}
+          onSelectCountry={handleCountrySelect}
+        />
       )}
+      {selectedCountry && <CountryDetail country={selectedCountry} />}
     </div>
   );
 }
