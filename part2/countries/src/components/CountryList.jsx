@@ -1,9 +1,11 @@
 const CountryList = ({ countries, onSelectCountry }) => (
     <ul>
         {countries.map((country) => (
-            <li key={country.name.official} onClick={() => onSelectCountry(country)}>
-                {country.name.official}
-            </li>
+        <li key={country.name.official} >
+            {country.name.official}
+            {" "}
+            <button onClick={() => onSelectCountry(country)}>Show</button>
+        </li>
         ))}
     </ul>
 );
