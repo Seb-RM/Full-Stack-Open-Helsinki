@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import countryServices from "./services/countries";
 import CountryDetail from "./components/CountryDetail";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [newSearchString, setNewSearchString] = useState("");
-  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
     countryServices.getAll().then((initialCountries) => {
@@ -18,22 +18,21 @@ function App() {
     // console.log(event.target.value);
     setNewSearchString(event.target.value);
   };
-  useEffect(()=> {
-    setFilteredCountries(countries.filter((country)=> {
-      const searchString = newSearchString.toLowerCase();
-      // console.log(searchString);
+
+  const handleCountrySelect = (country) => {
+    setSelectedCountry(country);
+  };
+
+  const filteredCountries = useMemo(() => {
+    const searchString = newSearchString.toLowerCase();
+    const regex = new RegExp(`\\b${searchString}\\w*\\b`, "i");
+
+    return countries.filter((country) => {
       const commonName = country.name.common.toLowerCase();
-      // console.log(commonName);
       const officialName = country.name.official.toLowerCase();
-      
-      const regex = new RegExp(`\\b${searchString}\\w*\\b`, "i");
-      // console.log(regex.test(commonName));
-      
       return regex.test(commonName) || regex.test(officialName);
-    }))
-  }, [newSearchString, setFilteredCountries, countries]);
-  // console.log(filteredCountries.length);
-  // console.log(filteredCountries[0])
+    });
+  }, [newSearchString, countries]);
 
   return (
     <div>
