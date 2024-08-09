@@ -58,6 +58,9 @@ app.get("/api/persons/:id", (request, response) => {
 
 app.delete("/api/persons/:id", (request, response) => {
     const id = Number(request.params.id);
+
+    console.log(id);
+
     const person = data.find((person) => person.id === id);
 
     if (!person) {
@@ -71,6 +74,8 @@ app.delete("/api/persons/:id", (request, response) => {
 
 app.post("/api/persons", (request, response) => {
     const body = request.body;
+
+    console.log(body);
 
     if (!body.name || !body.number) {
         return response.status(400).json({
