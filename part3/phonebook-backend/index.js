@@ -28,15 +28,30 @@ let data = [
     },
 ];
 
+app.use(express.static("dist"));
+
+const requestLogger = (request, response, next) => {
+    console.log("Method:", request.method);
+    console.log("Path:  ", request.path);
+    console.log("Body:  ", request.body);
+    console.log("---");
+    next();
+};
+
 const cors = require("cors");
 
 app.use(cors());
 
 app.use(express.json());
+app.use(requestLogger);
 
 morgan.token("body", (req) => {
     return req.method === "POST" ? JSON.stringify(req.body) : "";
 });
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: "unknown endpoint" });
+};
 
 app.use(
     morgan(":method :url :status :res[content-length] - :response-time ms :body")
@@ -118,6 +133,8 @@ app.post("/api/persons", (request, response) => {
 
     response.json(newPerson);
 });
+
+app.use(unknownEndpoint);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
