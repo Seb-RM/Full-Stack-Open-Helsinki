@@ -44,8 +44,6 @@ if (process.argv.length === 5) {
         mongoose.connection.close();
     });
     } else {
-    console.log(
-        "Para agregar una nueva entrada: node mongo.js <password> <name> <number>"
-    );
+    console.log("To add a new entry: node mongo.js <password> <name> <number>");
     mongoose.connection.close();
 }
