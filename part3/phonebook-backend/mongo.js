@@ -7,25 +7,45 @@ if (process.argv.length < 3) {
 
 const password = process.argv[2];
 
-const url = `mongodb+srv://seb-rm:<${password}>@cluster0.ok5xt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const url = `mongodb+srv://seb-rm:${password}@cluster0.ok5xt.mongodb.net/?retryWrites=true&w=majority`;
 
 mongoose.set("strictQuery", false);
 
 mongoose.connect(url);
 
-const noteSchema = new mongoose.Schema({
-    content: String,
-    important: Boolean,
+const personSchema = new mongoose.Schema({
+    name: String,
+    number: String,
 });
 
-const Note = mongoose.model("Note", noteSchema);
 
-const note = new Note({
-    content: "HTML is easy",
-    important: true,
-});
+const Person = mongoose.model("Person", personSchema);
 
-note.save().then((result) => {
-    console.log("note saved!");
+
+if (process.argv.length === 5) {
+
+    const person = new Person({
+        name: process.argv[3],
+        number: process.argv[4],
+    });
+
+    person.save().then((result) => {
+        console.log(`Added ${result.name} number ${result.number} to phonebook`);
+        mongoose.connection.close();
+    });
+
+} else if (process.argv.length === 3) {
+
+    Person.find({}).then((result) => {
+        console.log("phonebook:");
+        result.forEach((person) => {
+        console.log(`${person.name} ${person.number}`);
+        });
+        mongoose.connection.close();
+    });
+    } else {
+    console.log(
+        "Para agregar una nueva entrada: node mongo.js <password> <name> <number>"
+    );
     mongoose.connection.close();
-});
+}
